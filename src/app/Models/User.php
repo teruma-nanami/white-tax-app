@@ -41,4 +41,28 @@ class User extends Authenticatable
     protected $casts = [
         'password' => 'hashed',
     ];
+    public function profile()
+    {
+        return $this->hasOne(UserProfile::class);
+    }
+
+    public function ledgers()
+    {
+        return $this->hasMany(Ledger::class);
+    }
+
+    public function entries()
+    {
+        return $this->hasMany(Entry::class);
+    }
+
+    public function categoryPreferences()
+    {
+        return $this->hasMany(UserPreference::class);
+    }
+
+    public function taxFilingData()
+    {
+        return $this->hasMany(TaxFilingData::class);
+    }
 }
