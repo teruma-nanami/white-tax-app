@@ -2,8 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EntryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +19,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 // Email verification routes removed — this template does not require email verification.
 
 // Home
-Route::get('/', function () {
-    return view('welcome');
+Route::middleware('auth')->group(function () {
+	Route::get('/', [DashboardController::class, 'home'])->name('dashboard.home');
+	Route::get('/entries', [EntryController::class, 'index'])->name('entries.index');
+	Route::get('/entries/create', [EntryController::class, 'create'])->name('entries.create');
+	Route::post('/entries', [EntryController::class, 'store'])->name('entries.store');
 });
