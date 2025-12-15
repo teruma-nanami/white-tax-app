@@ -2,31 +2,58 @@
 
 namespace App\Services;
 
-use Illuminate\Support\Facades\Auth;
-use App\Models\Ledger;
 use App\Models\Entry;
+use Carbon\Carbon;
 
 class DashboardService
 {
   /**
-   * ダッシュボード表示用データ取得
+   * 指定ユーザーの年間収支を集計する
    */
-  public function getDashboardData(): array
+  public function getAnnualSummaryForUser(int $userId): array
   {
-    $user = Auth::user();
-    $currentYear = now()->year;
+    $currentYear = Carbon::now()->year;
 
-    $ledger = Ledger::where('user_id', $user->id)
-      ->where('fiscal_year', $currentYear)
-      ->first();
+    $entries = Entry::where('user_id', $userId)
+      ->whereYear('transaction_date', $currentYear)
+      ->get();
+
+    $income = $entries
+      ->where('amount_inc_tax', '>', 0)
+      ->sum('amount_inc_tax');
+
+    $expense = $entries
+      ->where('amount_inc_tax', '<', 0)
+      ->sum('amount_inc_tax');
+
+    $expense = abs($expense);
 
     return [
-      'currentYear' => $currentYear,
-      'ledger' => $ledger,
-      'entryCount' => $ledger
-        ? Entry::where('ledger_id', $ledger->id)->count()
-        : 0,
-      'filingStatus' => $ledger?->status ?? 'Draft',
+      'income'  => $income ?? 0,
+      'expense' => $expense ?? 0,
+      'balance' => ($income ?? 0) - ($expense ?? 0),
     ];
+  }
+  public function getNotifications(): array
+  {
+    $notifications = [
+      [
+        'title' => 'サービス開始のお知らせ',
+        'body' => '白色申告アプリをご利用いただきありがとうございます。',
+        'published_at' => '2025-01-01',
+      ],
+      [
+        'title' => 'アップデート予定のお知らせ',
+        'body' => '今後、確定申告書PDF出力機能を追加予定です。',
+        'published_at' => '2025-02-01',
+      ],
+    ];
+
+    // 新しい順に並び替え
+    usort($notifications, function ($a, $b) {
+      return strtotime($b['published_at']) <=> strtotime($a['published_at']);
+    });
+
+    return $notifications;
   }
 }

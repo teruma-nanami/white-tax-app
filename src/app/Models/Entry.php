@@ -17,19 +17,20 @@ class Entry extends Model
         'transaction_date',
         'amount_inc_tax',
         'tax_category',
-        'tax_amount',
-        'invoice_number',
         'description',
         'partner_name',
-        'is_excluded_from_expense',
+        'is_invoice_received',
+        'is_capitalized',
         'is_recurring',
     ];
 
     protected $casts = [
         'transaction_date' => 'date',
-        'is_excluded_from_expense' => 'boolean',
+        'is_invoice_received' => 'boolean',
+        'is_capitalized' => 'boolean',
         'is_recurring' => 'boolean',
     ];
+
 
     public function user()
     {
