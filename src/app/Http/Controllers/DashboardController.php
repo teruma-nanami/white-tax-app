@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\DashboardService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Services\DashboardService;
 
 class DashboardController extends Controller
 {
-    private DashboardService $dashboardService;
+    protected DashboardService $dashboardService;
 
     public function __construct(DashboardService $dashboardService)
     {
@@ -15,12 +16,23 @@ class DashboardController extends Controller
     }
 
     /**
-     * ダッシュボードトップ
+     * ダッシュボード表示
      */
-    public function home()
+    public function index()
     {
-        $data = $this->dashboardService->getDashboardData();
+        $userId = Auth::id();
 
-        return view('dashboard.home', $data);
+        $annualSummary = $this->dashboardService
+            ->getAnnualSummaryForUser($userId);
+
+        return view('dashboard.home', compact('annualSummary'));
+    }
+    public function notifications()
+    {
+        $notifications = $this->dashboardService->getNotifications();
+
+        return view('dashboard.notifications', [
+            'notifications' => $notifications,
+        ]);
     }
 }
