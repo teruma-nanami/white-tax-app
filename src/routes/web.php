@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EntryController;
@@ -55,9 +54,5 @@ Route::middleware('auth')->group(function () {
 	Route::put('/categories', [CategoryController::class, 'update'])->name('categories.update');
 });
 
-// チャットボット
-Route::get('/chatbot', [ChatbotController::class, 'index'])
-	->name('chatbot.index');
-
-Route::post('/chatbot/message', [ChatbotController::class, 'message'])
-	->name('chatbot.message');
+Route::get('/chatbot', [ChatbotController::class, 'index'])->name('chatbot.index');
+Route::post('/chatbot/message', [ChatbotController::class, 'message'])->name('chatbot.message');
