@@ -8,6 +8,8 @@ use App\Http\Controllers\FilingController;
 use App\Http\Controllers\DepreciationController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LedgerController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,4 +48,8 @@ Route::middleware('auth')->group(function () {
 	Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
 	Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 	Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+	Route::get('/settings/ledger-status', [LedgerController::class, 'create'])->name('settings.ledger_status');
+	Route::post('/settings/ledger-status', [LedgerController::class, 'store'])->name('settings.ledger_status.lock');
+	Route::get('/categories/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+	Route::put('/categories', [CategoryController::class, 'update'])->name('categories.update');
 });
