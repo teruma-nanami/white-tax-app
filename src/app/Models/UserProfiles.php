@@ -11,6 +11,11 @@ class UserProfiles extends Model
 
     protected $table = 'user_profiles';
 
+    // primary key is `user_id` (not the default `id`)
+    protected $primaryKey = 'user_id';
+    public $incrementing = false;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'user_id',
         'app_role',

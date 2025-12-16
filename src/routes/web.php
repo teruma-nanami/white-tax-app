@@ -6,6 +6,10 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EntryController;
 use App\Http\Controllers\FilingController;
 use App\Http\Controllers\DepreciationController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\LedgerController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,4 +45,11 @@ Route::middleware('auth')->group(function () {
 	Route::get('/filing/{ledger}/depreciation', [DepreciationController::class, 'index'])->name('filing.depreciation.index');
 	Route::get('/filing/{ledger}/depreciation/create', [DepreciationController::class, 'create'])->name('filing.depreciation.create');
 	Route::post('/filing/{ledger}/depreciation', [DepreciationController::class, 'store'])->name('filing.depreciation.store');
+	Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
+	Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+	Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+	Route::get('/settings/ledger-status', [LedgerController::class, 'create'])->name('settings.ledger_status');
+	Route::post('/settings/ledger-status', [LedgerController::class, 'store'])->name('settings.ledger_status.lock');
+	Route::get('/categories/edit', [CategoryController::class, 'edit'])->name('categories.edit');
+	Route::put('/categories', [CategoryController::class, 'update'])->name('categories.update');
 });
