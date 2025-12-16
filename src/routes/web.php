@@ -10,6 +10,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\LedgerController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ChatbotController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,3 +54,10 @@ Route::middleware('auth')->group(function () {
 	Route::get('/categories/edit', [CategoryController::class, 'edit'])->name('categories.edit');
 	Route::put('/categories', [CategoryController::class, 'update'])->name('categories.update');
 });
+
+// チャットボット
+Route::get('/chatbot', [ChatbotController::class, 'index'])
+	->name('chatbot.index');
+
+Route::post('/chatbot/message', [ChatbotController::class, 'message'])
+	->name('chatbot.message');
