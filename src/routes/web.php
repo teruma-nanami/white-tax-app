@@ -7,6 +7,7 @@ use App\Http\Controllers\EntryController;
 use App\Http\Controllers\FilingController;
 use App\Http\Controllers\DepreciationController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,4 +44,6 @@ Route::middleware('auth')->group(function () {
 	Route::get('/filing/{ledger}/depreciation/create', [DepreciationController::class, 'create'])->name('filing.depreciation.create');
 	Route::post('/filing/{ledger}/depreciation', [DepreciationController::class, 'store'])->name('filing.depreciation.store');
 	Route::get('/invoice', [InvoiceController::class, 'index'])->name('invoice.index');
+	Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+	Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
 });
